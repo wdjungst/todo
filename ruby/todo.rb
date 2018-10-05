@@ -4,6 +4,7 @@ require 'colorize'
 @items = []
 @cont = true
 @options = ['Show All', 'Show Complete', 'Show Active', 'Add Item', 'Mark As Complete', 'Delete Item', 'Quit']
+@id = 0
 
 def menu
   puts "====== TODO Ruby =====".colorize(:cyan)
@@ -25,7 +26,16 @@ def user_choice
 end
 
 def show_all
-  puts 'show all'
+  length = @items.length
+  plural = @items.length > 1
+  space
+  puts "There #{plural ? 'are' : 'is'} #{length} item#{plural ? 's' : ''} on your list"
+  puts "========================================="
+  puts "id\t\tname\t\tstatus"
+  puts "_________________________________________"
+  @items.each { |item| puts "#{item[:id]}\t\t#{item[:name]}\t#{item[:complete]}" }
+
+  space
 end
 
 def show_complete
@@ -37,7 +47,11 @@ def show_active
 end
 
 def add_item
-  puts 'add item'
+  space
+  puts "Item Name:\n"
+  name = gets.strip
+  @items << { name: name, id: @id += 1, complete: false }
+  space
 end
 
 def mark_as_complete
@@ -49,8 +63,12 @@ def delete_item
 end
 
 def quit
-  puts 'quit'
+  puts 'Goodbye'
   @cont = false
+end
+
+def space
+  puts "\n\n"
 end
 
 while @cont
