@@ -78,7 +78,16 @@ def add_item
 end
 
 def mark_as_complete
-  puts 'mark as complete'
+  show_active
+  puts "Which item would you like to mark complete? (id)"
+  id = gets.to_i
+  data = find_item(id)
+  if item = data[:item]
+    item[:complete] = true
+  else
+    puts "Invalid id"
+    show_active
+  end
 end
 
 def delete_item
