@@ -59,7 +59,20 @@ def mark_as_complete
 end
 
 def delete_item
-  puts 'delete item'
+  if @items.length > 0
+    show_all 
+    puts "Which item would you like to delete? (id)"
+    choice = gets.to_i
+    index = @items.find_index { |i| i[:id] == choice }
+    if index
+      @items.delete_at index
+    else
+      puts "Invalid id"
+      delete_item
+    end
+  else
+    puts "No items to delete"
+  end
 end
 
 def quit
