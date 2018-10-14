@@ -38,6 +38,15 @@ def show_all
   space
 end
 
+def find_item(id)
+  data = {}
+  item = @items.find { |i| i[:id] == id }
+  index = @items.find_index { |i| i[:id] == id }
+  data[:item] = item
+  data[:index] = index
+  data
+end
+
 def show_complete
   puts 'show complete'
 end
@@ -63,8 +72,8 @@ def delete_item
     show_all 
     puts "Which item would you like to delete? (id)"
     choice = gets.to_i
-    index = @items.find_index { |i| i[:id] == choice }
-    if index
+    item = find_item(choice)
+    if index = item[:index]
       @items.delete_at index
     else
       puts "Invalid id"
