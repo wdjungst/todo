@@ -25,15 +25,25 @@ def user_choice
   end
 end
 
-def show_all
-  length = @items.length
-  plural = @items.length > 1
+def show_all(view = 'all')
+  items = []
+  case view
+  when 'complete'
+    items = @items.select { |i| i[:complete] }
+  when 'active'
+    items = @items.select { |i| !i[:complete] }
+  else
+    items = @items.clone
+  end
+
+  length = items.length
+  plural = items.length > 1
   space
   puts "There #{plural ? 'are' : 'is'} #{length} item#{plural ? 's' : ''} on your list"
   puts "========================================="
   puts "id\t\tname\t\tstatus"
   puts "_________________________________________"
-  @items.each { |item| puts "#{item[:id]}\t\t#{item[:name]}\t#{item[:complete]}" }
+  items.each { |item| puts "#{item[:id]}\t\t#{item[:name]}\t#{item[:complete]}" }
 
   space
 end
@@ -48,11 +58,15 @@ def find_item(id)
 end
 
 def show_complete
-  puts 'show complete'
+  puts 'Completed'
+  space
+  show_all('complete')
 end
 
 def show_active
-  puts 'show active'
+  puts 'Active'
+  space
+  show_all('active')
 end
 
 def add_item
